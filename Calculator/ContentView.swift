@@ -37,16 +37,20 @@ struct ContentView: View {
         ["=", "white", "orange", "orange2"]
     ]
     
+    // 텍스트를 위한 GridItem
     private let columnsForText: [GridItem] = [
         GridItem(.flexible())
     ]
     
+    // 버튼 배열을 위한 GridItem
     private let columns: [GridItem] = [
         GridItem(.flexible()),
         GridItem(.flexible()),
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
+    
+    // 0라인 버튼배열을 위한 GridItem
     private let columnsForZero: [GridItem] = [
         GridItem(.flexible(minimum: 170)),
         GridItem(.flexible()),
@@ -58,6 +62,7 @@ struct ContentView: View {
             Color("black").ignoresSafeArea()
             VStack {
                 Spacer().frame(height: 180)
+                // 출력 텍스트
                 LazyVGrid(
                     columns: columnsForText,
                     alignment: .trailing,
@@ -66,6 +71,7 @@ struct ContentView: View {
                             .foregroundColor(Color("white"))
                             .font(.system(size: 95, weight: .thin))
                     }).padding(.trailing, 40)
+                // 4X4 버튼 배열
                 LazyVGrid(
                     columns: columns,
                     alignment: .center,
@@ -76,6 +82,7 @@ struct ContentView: View {
                         }
                     }).padding(.horizontal, 16)
                 Spacer().frame(height: 25)
+                // 0 라인 버튼 배열
                 LazyVGrid(
                     columns: columnsForZero,
                     alignment: .center,
