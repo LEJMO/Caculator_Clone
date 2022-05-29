@@ -12,11 +12,12 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @EnvironmentObject var calculator : Calculator
+    
     // 버튼 정보 배열
     // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
     private let contents: [[String]] = [
-        ["C", "black", "lgray", "lgray2"],
-        ["AC", "black", "lgray", "lgray2"],
+        ["AC", "black", "lgray", "lgray2", "C"],
         ["⁺∕₋", "black", "lgray", "lgray2"],
         ["%", "black", "lgray", "lgray2"],
         ["÷", "white", "orange", "orange2", "white"],
@@ -67,17 +68,20 @@ struct ContentView: View {
                     columns: columnsForText,
                     alignment: .trailing,
                     content: {
-                        Text("1200.12")
+                        Text("\(calculator.resultText)")
                             .foregroundColor(Color("white"))
-                            .font(.system(size: 95, weight: .thin))
-                    }).padding(.trailing, 40)
+                            .font(.system(size: 95, weight: .light))
+                            .lineLimit(1)
+                            .frame(height: 100)
+                            .minimumScaleFactor(0.5)
+                    }).padding(.horizontal, 40)
                 // 4X4 버튼 배열
                 LazyVGrid(
                     columns: columns,
                     alignment: .center,
                     spacing: 17,
                     content: {
-                        ForEach(1..<17, id: \.self) { index in
+                        ForEach(0..<16, id: \.self) { index in
                             CalculatorButton(content: contents[index])
                         }
                     }).padding(.horizontal, 16)
@@ -88,9 +92,9 @@ struct ContentView: View {
                     alignment: .center,
                     spacing: 17,
                     content: {
-                        CalculatorButton(content: contents[17])
-                        CalculatorButton(content: contents[18]).padding(.leading, 6)
-                        CalculatorButton(content: contents[19]).padding(.leading, 1)
+                        CalculatorButton(content: contents[16])
+                        CalculatorButton(content: contents[17]).padding(.leading, 6)
+                        CalculatorButton(content: contents[18]).padding(.leading, 1)
                     }).padding(.horizontal, 16)
                 Spacer().frame(height: 74)
             }
