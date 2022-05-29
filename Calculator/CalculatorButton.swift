@@ -19,10 +19,10 @@ struct CalculatorButtonStyle: ButtonStyle {
             .label
             .font(.system(size: 36, weight: .medium))
             .foregroundColor(Color(content[1]))
-            .padding(.vertical, 30)
+            .padding(.vertical, 10)
             .background(
                 Circle()
-                    .frame(width: 80, height: 80)
+                    .frame(width: 78, height: 78)
                     .foregroundColor(configuration.isPressed ? Color(content[3]) : Color(content[2]))
         )
     }
@@ -38,11 +38,14 @@ struct CalculatorButtonStyleForZero: ButtonStyle {
             .label
             .font(.system(size: 36, weight: .medium))
             .foregroundColor(Color(content[1]))
-            .padding(.vertical, 30)
+            .padding(.vertical, 10)
             .background(
-                Circle()
-                    .frame(width: 80, height: 80)
-                    .foregroundColor(configuration.isPressed ? Color(content[3]) : Color(content[2]))
+                HStack{
+                    Spacer()
+                    Capsule()
+                        .frame(width: 170, height: 78)
+                        .foregroundColor(configuration.isPressed ? Color(content[3]) : Color(content[2]))
+                }
         )
     }
 }
@@ -55,12 +58,12 @@ struct CalculatorButtonStyleForOperator: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration
             .label
-            .font(.system(size: 36, weight: .medium))
+            .font(.system(size: 48, weight: .medium))
             .foregroundColor(Color(content[1]))
-            .padding(.vertical, 30)
+            .padding(.vertical, 10)
             .background(
                 Circle()
-                    .frame(width: 80, height: 80)
+                    .frame(width: 78, height: 78)
                     .foregroundColor(configuration.isPressed ? Color(content[3]) : Color(content[2]))
         )
     }
@@ -77,7 +80,9 @@ struct CalculatorButton: View {
         // 0과 사칙연산자는 따로 스타일 지정(0은 모양, 사직연산자는 활성화배경때문)
         switch content[0] {
         case "0":
-            Button(content[0]) {}.buttonStyle(CalculatorButtonStyleForZero(content: content))
+            Button (action: {}, label: {
+                Text("0").padding(.trailing, 85)
+            }).buttonStyle(CalculatorButtonStyleForZero(content: content))
         case "÷", "×", "−", "+":
             Button(content[0]) {}.buttonStyle(CalculatorButtonStyleForOperator(content: content))
         default:

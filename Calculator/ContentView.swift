@@ -36,43 +36,56 @@ struct ContentView: View {
         [".", "white", "dgray", "dgray2"],
         ["=", "white", "orange", "orange2"]
     ]
+    
+    private let columnsForText: [GridItem] = [
+        GridItem(.flexible())
+    ]
+    
     private let columns: [GridItem] = [
-        GridItem(.flexible(), spacing: nil, alignment: nil),
-        GridItem(.flexible(), spacing: nil, alignment: nil),
-        GridItem(.flexible(), spacing: nil, alignment: nil),
-        GridItem(.flexible(), spacing: nil, alignment: nil)
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
+    private let columnsForZero: [GridItem] = [
+        GridItem(.flexible(minimum: 170)),
+        GridItem(.flexible()),
+        GridItem(.flexible())
     ]
     
     var body: some View {
         ZStack {
             Color("black").ignoresSafeArea()
             VStack {
-                HStack {
-                    Spacer()
-                    Text("1200.12")
-                        .foregroundColor(Color("white"))
-                        .font(.system(size: 95, weight: .light))
-                        .padding(.trailing, 25)
-                }
+                Spacer().frame(height: 180)
+                LazyVGrid(
+                    columns: columnsForText,
+                    alignment: .trailing,
+                    content: {
+                        Text("1200.12")
+                            .foregroundColor(Color("white"))
+                            .font(.system(size: 95, weight: .thin))
+                    }).padding(.trailing, 40)
                 LazyVGrid(
                     columns: columns,
                     alignment: .center,
-                    spacing: 6,
-                    pinnedViews: [],
+                    spacing: 17,
                     content: {
-                        Section {
-                            ForEach(1..<17, id: \.self) { index in
-                                CalculatorButton(content: contents[index])
-                            }
+                        ForEach(1..<17, id: \.self) { index in
+                            CalculatorButton(content: contents[index])
                         }
-                        Section {
-                            CalculatorButton(content: contents[17])
-                            ForEach(17..<20, id: \.self) { index in
-                                CalculatorButton(content: contents[index])
-                            }
-                        }
-                    })
-                
+                    }).padding(.horizontal, 16)
+                Spacer().frame(height: 25)
+                LazyVGrid(
+                    columns: columnsForZero,
+                    alignment: .center,
+                    spacing: 17,
+                    content: {
+                        CalculatorButton(content: contents[17])
+                        CalculatorButton(content: contents[18]).padding(.leading, 6)
+                        CalculatorButton(content: contents[19]).padding(.leading, 1)
+                    }).padding(.horizontal, 16)
+                Spacer().frame(height: 74)
             }
             
         }
