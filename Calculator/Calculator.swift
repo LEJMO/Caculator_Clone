@@ -96,14 +96,14 @@ class Calculator: ObservableObject {
     // 연산자 변경 함수
     func changeOperator(nextOp: String) {
         
-        // "÷", "×", "−", "+"
+        // 실연산자 데이터
         let realOperatorInfo: [String: String] = ["+": "+", "−": "-", "×": "*", "÷": "/"]
         
         op = nextOp
         
         guard (!tempNumber.isEmpty) else { return }
         
-        if (lastIsOperator(data: calcString)) {
+        if (lastIsOperator(data: calcString) && tempNumber.count == 0) {
             calcString.removeLast()
             calcString += realOperatorInfo[nextOp]!
         } else {
