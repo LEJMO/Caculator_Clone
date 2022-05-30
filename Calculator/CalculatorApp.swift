@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct CalculatorApp: App {
+    
+    @StateObject private var calculator = Calculator()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView().preferredColorScheme(.dark)
+            ContentView()
+                .preferredColorScheme(.dark)
+                .environmentObject(calculator)
         }
     }
 }
