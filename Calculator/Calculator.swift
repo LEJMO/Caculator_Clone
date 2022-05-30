@@ -96,7 +96,7 @@ class Calculator: ObservableObject {
     // 연산자 변경 함수
     func changeOperator(nextOp: String) {
         
-        // "÷", "×", "−", "+"
+        // 실연산자 데이터
         let realOperatorInfo: [String: String] = ["+": "+", "−": "-", "×": "*", "÷": "/"]
         
         op = nextOp
