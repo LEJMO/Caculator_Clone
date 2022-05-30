@@ -78,8 +78,6 @@ struct CalculatorButton: View {
     // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
     let content: [String]
     
-    @State private var isTap: Bool = false
-    
     var body: some View {
         // 버튼마다 스타일 및 기능 지정
         switch content[0] {
