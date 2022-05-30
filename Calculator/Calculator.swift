@@ -15,6 +15,7 @@ class Calculator: ObservableObject {
     @Published var tempNumber: String = ""
     @Published var calcString: String = "0"
     
+    private var currentOp: String = ""
     private let numberFormatter = NumberFormatter()
     
     // 초기화 함수
@@ -57,11 +58,19 @@ class Calculator: ObservableObject {
     
     // 연산
     func calculate() {
-        calcString += tempNumber
+        let value: Double?
         
-        let expression = NSExpression(format:calcString)
-        let value = expression.expressionValue(with: nil, context: nil) as? Double
-        
+        if (lastIsOperator(data: calcString)) {
+            calcString += tempNumber
+            let expression = NSExpression(format:calcString)
+            value = expression.expressionValue(with: nil, context: nil) as? Double
+        } else {
+            calcString += currentOp
+            calcString += tempNumber
+            
+            let expression = NSExpression(format:calcString)
+            value = expression.expressionValue(with: nil, context: nil) as? Double
+        }
         updateResult(number: String(value!))
     }
     
@@ -100,6 +109,7 @@ class Calculator: ObservableObject {
         let realOperatorInfo: [String: String] = ["+": "+", "−": "-", "×": "*", "÷": "/"]
         
         op = nextOp
+        currentOp = realOperatorInfo[nextOp]!
         
         guard (!tempNumber.isEmpty) else { return }
         
@@ -108,8 +118,8 @@ class Calculator: ObservableObject {
             calcString += realOperatorInfo[nextOp]!
         } else {
             calcString += tempNumber; calcString += realOperatorInfo[nextOp]!
+            tempNumber = ""
         }
-        
     }
     
     // 출력값 업데이트 함수
@@ -133,13 +143,7 @@ class Calculator: ObservableObject {
         guard data.count != 0 else { return false }
         
         switch data.last! {
-        case "÷":
-            return true
-        case "×":
-            return true
-        case "−":
-            return true
-        case "+":
+        case "/", "*", "-", "+":
             return true
         default:
             return false
