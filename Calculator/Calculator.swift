@@ -103,7 +103,7 @@ class Calculator: ObservableObject {
         
         guard (!tempNumber.isEmpty) else { return }
         
-        if (lastIsOperator(data: calcString)) {
+        if (lastIsOperator(data: calcString) && tempNumber.count == 0) {
             calcString.removeLast()
             calcString += realOperatorInfo[nextOp]!
         } else {
