@@ -13,7 +13,7 @@ class Calculator: ObservableObject {
     @Published var resultText: String = "0"
     @Published var op: String? = nil
     @Published var tempNumber: String = ""
-    @Published var calcString: String = ""
+    @Published var calcString: String = "0"
     
     private let numberFormatter = NumberFormatter()
     
@@ -21,7 +21,7 @@ class Calculator: ObservableObject {
     func reset() {
         resultText = "0"
         tempNumber = ""
-        calcString = ""
+        calcString = "0"
     }
     
     // .
@@ -47,9 +47,7 @@ class Calculator: ObservableObject {
         guard (tempNumber.count != 0) else { return }
         
         if (tempNumber.first == "-") {
-            var sub = tempNumber[tempNumber.startIndex...]
-            sub.popFirst()
-            tempNumber = String(sub)
+            tempNumber.removeFirst()
         } else {
             tempNumber = "-" + tempNumber
         }
@@ -97,11 +95,21 @@ class Calculator: ObservableObject {
     
     // 연산자 변경 함수
     func changeOperator(nextOp: String) {
+        
+        // "÷", "×", "−", "+"
+        let realOperatorInfo: [String: String] = ["+": "+", "−": "-", "×": "*", "÷": "/"]
+        
         op = nextOp
         
         guard (!tempNumber.isEmpty) else { return }
         
-        calcString += tempNumber; calcString += nextOp
+        if (lastIsOperator(data: calcString)) {
+            calcString.removeLast()
+            calcString += realOperatorInfo[nextOp]!
+        } else {
+            calcString += tempNumber; calcString += realOperatorInfo[nextOp]!
+        }
+        
     }
     
     // 출력값 업데이트 함수
@@ -117,6 +125,24 @@ class Calculator: ObservableObject {
             resultText = numberFormatter.string(from: NSNumber(value:Double(number[..<number.endIndex])!))! + "."
         } else {
             resultText = numberFormatter.string(from: NSNumber(value:Double(number)!))!
+        }
+    }
+    
+    // 마지막 문자 "÷", "×", "−", "+" 확인
+    func lastIsOperator(data: String) -> Bool {
+        guard data.count != 0 else { return false }
+        
+        switch data.last! {
+        case "÷":
+            return true
+        case "×":
+            return true
+        case "−":
+            return true
+        case "+":
+            return true
+        default:
+            return false
         }
     }
 }
