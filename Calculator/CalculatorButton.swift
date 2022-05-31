@@ -12,18 +12,20 @@ import SwiftUI
 struct CalculatorButtonStyle: ButtonStyle {
     
     // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
-    let content: CalcButton
+    let fontColor: String
+    let bgColor: String
+    let bgColorOnTap: String
     
     func makeBody(configuration: Configuration) -> some View {
         configuration
             .label
             .font(.system(size: 36, weight: .medium))
-            .foregroundColor(Color(content[1]))
+            .foregroundColor(Color(fontColor))
             .padding(.vertical, 10)
             .background(
                 Circle()
                     .frame(width: 78, height: 78)
-                    .foregroundColor(configuration.isPressed ? Color(content[3]) : Color(content[2]))
+                    .foregroundColor(configuration.isPressed ? Color(bgColorOnTap) : Color(bgColor))
         )
     }
 }
@@ -31,20 +33,22 @@ struct CalculatorButtonStyle: ButtonStyle {
 struct CalculatorButtonStyleForZero: ButtonStyle {
     
     // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
-    let content: CalcButton
+    let fontColor: String
+    let bgColor: String
+    let bgColorOnTap: String
     
     func makeBody(configuration: Configuration) -> some View {
         configuration
             .label
             .font(.system(size: 36, weight: .medium))
-            .foregroundColor(Color(content[1]))
+            .foregroundColor(Color(fontColor))
             .padding(.vertical, 10)
             .background(
                 HStack{
                     Spacer()
                     Capsule()
                         .frame(width: 170, height: 78)
-                        .foregroundColor(configuration.isPressed ? Color(content[3]) : Color(content[2]))
+                        .foregroundColor(configuration.isPressed ? Color(bgColorOnTap) : Color(bgColor))
                 }
         )
     }
@@ -55,18 +59,22 @@ struct CalculatorButtonStyleForOperator: ButtonStyle {
     @EnvironmentObject var calculator: Calculator
     
     // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
-    let content: CalcButton
+    let symbol: String
+    let fontColor: String
+    let bgColor: String
+    let bgColorOnTap: String
+    let bgColorIsActive: String?
     
     func makeBody(configuration: Configuration) -> some View {
         configuration
             .label
             .font(.system(size: 48, weight: .medium))
-            .foregroundColor(Color(calculator.op == content[0] ? content[2] : content[1]))
+            .foregroundColor(Color(calculator.op == symbol ? bgColor : fontColor))
             .padding(.vertical, 10)
             .background(
                 Circle()
                     .frame(width: 78, height: 78)
-                    .foregroundColor(configuration.isPressed ? Color(content[3]) : Color(calculator.op == content[0] ? content[4] : content[2]))
+                    .foregroundColor(configuration.isPressed ? Color(bgColorOnTap) : Color(calculator.op == symbol ? bgColorIsActive! : bgColor))
         )
     }
 }
@@ -76,47 +84,52 @@ struct CalculatorButton: View {
     @EnvironmentObject var calculator : Calculator
 
     // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
-    let content: CalcButton
+    let symbol: String
+    let fontColor: String
+    let bgColor: String
+    let bgColorOnTap: String
+    let bgColorIsActive: String?
+    let symbolActive: String?
 
     var body: some View {
         // 버튼마다 스타일 및 기능 지정
         switch symbol {
         case "0":
             Button (action: {
-                calculator.addNumber(number: content[0])
+                calculator.addNumber(number: symbol)
             }, label: {
                 Text("0").padding(.trailing, 85)
-            }).buttonStyle(CalculatorButtonStyleForZero(content: content))
+            }).buttonStyle(CalculatorButtonStyleForZero(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
         case "÷", "×", "−", "+":
-            Button(content[0]) {
+            Button(symbol) {
                 withAnimation() {
-                    calculator.changeOperator(nextOp: content[0])
+                    calculator.changeOperator(nextOp: symbol)
                 }
-            }.buttonStyle(CalculatorButtonStyleForOperator(content: content))
+            }.buttonStyle(CalculatorButtonStyleForOperator(symbol: symbol, fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap, bgColorIsActive: bgColorIsActive))
         case "AC":
-            Button(content[calculator.isClear() ? 0:4]) {
+            Button(calculator.isClear() ? symbol:symbolActive!) {
                 calculator.reset()
-            }.buttonStyle(CalculatorButtonStyle(content: content))
+            }.buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
         case "⁺∕₋":
-            Button(content[0]) {
+            Button(symbol) {
                 calculator.changePlusMinus()
-            }.buttonStyle(CalculatorButtonStyle(content: content))
+            }.buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
         case "%":
-            Button(content[0]) {
+            Button(symbol) {
                 calculator.divideBy100()
-            }.buttonStyle(CalculatorButtonStyle(content: content))
+            }.buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
         case ".":
-            Button(content[0]) {
+            Button(symbol) {
                 calculator.addDot()
-            }.buttonStyle(CalculatorButtonStyle(content: content))
+            }.buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
         case "=":
-            Button(content[0]) {
+            Button(symbol) {
                 calculator.calculate()
-            }.buttonStyle(CalculatorButtonStyle(content: content))
+            }.buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
         default:
-            Button(content[0]) {
-                calculator.addNumber(number: content[0])
-            }.buttonStyle(CalculatorButtonStyle(content: content))
+            Button(symbol) {
+                calculator.addNumber(number: symbol)
+            }.buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
         }
     }
 }

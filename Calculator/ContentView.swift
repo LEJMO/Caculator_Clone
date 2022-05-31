@@ -68,7 +68,13 @@ struct ContentView: View {
                     spacing: 17,
                     content: {
                         ForEach(0..<16, id: \.self) { index in
-//                            CalculatorButton(content: contents[index])
+                            CalculatorButton(
+                                symbol: contents[index].symbol,
+                                fontColor: contents[index].fontColor,
+                                bgColor: contents[index].bgColor,
+                                bgColorOnTap: contents[index].bgColorOnTap,
+                                bgColorIsActive: contents[index].bgColorIsActive,
+                                symbolActive: contents[index].symbolActive)
                         }
                     }).padding(.horizontal, 16)
                 Spacer().frame(height: 25)
@@ -78,9 +84,9 @@ struct ContentView: View {
                     alignment: .center,
                     spacing: 17,
                     content: {
-//                        CalculatorButton(content: contents[16])
-//                        CalculatorButton(content: contents[17]).padding(.leading, 6)
-//                        CalculatorButton(content: contents[18]).padding(.leading, 1)
+                        CalculatorButton(content: contents[16])
+                        CalculatorButton(content: contents[17]).padding(.leading, 6)
+                        CalculatorButton(content: contents[18]).padding(.leading, 1)
                     }).padding(.horizontal, 16)
                 Spacer().frame(height: 74)
             }
