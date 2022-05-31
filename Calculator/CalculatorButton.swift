@@ -12,7 +12,7 @@ import SwiftUI
 struct CalculatorButtonStyle: ButtonStyle {
     
     // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
-    let content: [String]
+    let content: CalcButton
     
     func makeBody(configuration: Configuration) -> some View {
         configuration
@@ -31,7 +31,7 @@ struct CalculatorButtonStyle: ButtonStyle {
 struct CalculatorButtonStyleForZero: ButtonStyle {
     
     // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
-    let content: [String]
+    let content: CalcButton
     
     func makeBody(configuration: Configuration) -> some View {
         configuration
@@ -55,7 +55,7 @@ struct CalculatorButtonStyleForOperator: ButtonStyle {
     @EnvironmentObject var calculator: Calculator
     
     // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
-    let content: [String]
+    let content: CalcButton
     
     func makeBody(configuration: Configuration) -> some View {
         configuration
@@ -72,15 +72,15 @@ struct CalculatorButtonStyleForOperator: ButtonStyle {
 }
 
 struct CalculatorButton: View {
-    
+
     @EnvironmentObject var calculator : Calculator
-    
+
     // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
-    let content: [String]
-    
+    let content: CalcButton
+
     var body: some View {
         // 버튼마다 스타일 및 기능 지정
-        switch content[0] {
+        switch symbol {
         case "0":
             Button (action: {
                 calculator.addNumber(number: content[0])

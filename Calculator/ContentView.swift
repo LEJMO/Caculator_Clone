@@ -16,26 +16,12 @@ struct ContentView: View {
     
     // 버튼 정보 배열
     // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
-    private let contents: [[String]] = [
-        ["AC", "black", "lgray", "lgray2", "C"],
-        ["⁺∕₋", "black", "lgray", "lgray2"],
-        ["%", "black", "lgray", "lgray2"],
-        ["÷", "white", "orange", "orange2", "white"],
-        ["7", "white", "dgray", "dgray2"],
-        ["8", "white", "dgray", "dgray2"],
-        ["9", "white", "dgray", "dgray2"],
-        ["×", "white", "orange", "orange2", "white"],
-        ["4", "white", "dgray", "dgray2"],
-        ["5", "white", "dgray", "dgray2"],
-        ["6", "white", "dgray", "dgray2"],
-        ["−", "white", "orange", "orange2", "white"],
-        ["1", "white", "dgray", "dgray2"],
-        ["2", "white", "dgray", "dgray2"],
-        ["3", "white", "dgray", "dgray2"],
-        ["+", "white", "orange", "orange2", "white"],
-        ["0", "white", "dgray", "dgray2"],
-        [".", "white", "dgray", "dgray2"],
-        ["=", "white", "orange", "orange2"]
+    private let contents: [CalcButton] = [
+        CalcButtons.Clear(), CalcButtons.PlusMinus(), CalcButtons.Percent(), CalcButtons.divide(),
+        CalcButtons.Seven(), CalcButtons.Eight(), CalcButtons.Nine(), CalcButtons.Multiply(),
+        CalcButtons.Four(), CalcButtons.Five(), CalcButtons.Six(), CalcButtons.Minus(),
+        CalcButtons.One(), CalcButtons.Two(), CalcButtons.Three(), CalcButtons.Plus(),
+        CalcButtons.Zero(), CalcButtons.Dot(), CalcButtons.Equal()
     ]
     
     // 텍스트를 위한 GridItem
@@ -82,7 +68,7 @@ struct ContentView: View {
                     spacing: 17,
                     content: {
                         ForEach(0..<16, id: \.self) { index in
-                            CalculatorButton(content: contents[index])
+//                            CalculatorButton(content: contents[index])
                         }
                     }).padding(.horizontal, 16)
                 Spacer().frame(height: 25)
@@ -92,9 +78,9 @@ struct ContentView: View {
                     alignment: .center,
                     spacing: 17,
                     content: {
-                        CalculatorButton(content: contents[16])
-                        CalculatorButton(content: contents[17]).padding(.leading, 6)
-                        CalculatorButton(content: contents[18]).padding(.leading, 1)
+//                        CalculatorButton(content: contents[16])
+//                        CalculatorButton(content: contents[17]).padding(.leading, 6)
+//                        CalculatorButton(content: contents[18]).padding(.leading, 1)
                     }).padding(.horizontal, 16)
                 Spacer().frame(height: 74)
             }
