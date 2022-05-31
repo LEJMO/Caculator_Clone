@@ -15,7 +15,6 @@ struct ContentView: View {
     @EnvironmentObject var calculator : Calculator
     
     // 버튼 정보 배열
-    // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
     private let contents: [CalcButton] = [
         CalcButtons.Clear(), CalcButtons.PlusMinus(), CalcButtons.Percent(), CalcButtons.divide(),
         CalcButtons.Seven(), CalcButtons.Eight(), CalcButtons.Nine(), CalcButtons.Multiply(),
@@ -84,9 +83,15 @@ struct ContentView: View {
                     alignment: .center,
                     spacing: 17,
                     content: {
-                        CalculatorButton(content: contents[16])
-                        CalculatorButton(content: contents[17]).padding(.leading, 6)
-                        CalculatorButton(content: contents[18]).padding(.leading, 1)
+                        ForEach(16..<19, id: \.self) { index in
+                            CalculatorButton(
+                                symbol: contents[index].symbol,
+                                fontColor: contents[index].fontColor,
+                                bgColor: contents[index].bgColor,
+                                bgColorOnTap: contents[index].bgColorOnTap,
+                                bgColorIsActive: contents[index].bgColorIsActive,
+                                symbolActive: contents[index].symbolActive)
+                        }
                     }).padding(.horizontal, 16)
                 Spacer().frame(height: 74)
             }

@@ -11,7 +11,7 @@ import SwiftUI
 
 struct CalculatorButtonStyle: ButtonStyle {
     
-    // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
+    // 버튼 데이터
     let fontColor: String
     let bgColor: String
     let bgColorOnTap: String
@@ -32,7 +32,7 @@ struct CalculatorButtonStyle: ButtonStyle {
 
 struct CalculatorButtonStyleForZero: ButtonStyle {
     
-    // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
+    // 버튼 데이터
     let fontColor: String
     let bgColor: String
     let bgColorOnTap: String
@@ -58,7 +58,7 @@ struct CalculatorButtonStyleForOperator: ButtonStyle {
     
     @EnvironmentObject var calculator: Calculator
     
-    // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
+    // 버튼 데이터
     let symbol: String
     let fontColor: String
     let bgColor: String
@@ -83,7 +83,7 @@ struct CalculatorButton: View {
 
     @EnvironmentObject var calculator : Calculator
 
-    // [내용, 폰트색, 배경, 탭배경, 활성화배경(옵셔널)]
+    // 버튼 데이터
     let symbol: String
     let fontColor: String
     let bgColor: String
@@ -121,11 +121,15 @@ struct CalculatorButton: View {
         case ".":
             Button(symbol) {
                 calculator.addDot()
-            }.buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
+            }
+            .buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
+            .padding(.leading, 6)
         case "=":
             Button(symbol) {
                 calculator.calculate()
-            }.buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
+            }
+            .buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
+            .padding(.leading, 1)
         default:
             Button(symbol) {
                 calculator.addNumber(number: symbol)
