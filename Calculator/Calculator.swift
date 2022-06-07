@@ -14,9 +14,23 @@ class Calculator: ObservableObject {
     @Published var op: String? = nil
     @Published var tempNumber: String = ""
     @Published var calcString: String = "0"
+    @Published var isNumberMode: Bool = false
+    @Published var isCalculated: Bool = false
     
     private var currentOp: String = ""
     private let numberFormatter = NumberFormatter()
+    
+    // 드래그 시 일의자리 숫자 지우기
+    func deleteLastNumber() {
+        guard (tempNumber != "0" && isNumberMode && tempNumber.count != 0) else {return}
+        
+        if tempNumber.count == 1 {
+            tempNumber = "0"
+        } else {
+            tempNumber.remove(at: tempNumber.index(before: tempNumber.endIndex))
+        }
+        updateResult(number: tempNumber)
+    }
     
     // 초기화 함수
     func reset() {
@@ -117,8 +131,13 @@ class Calculator: ObservableObject {
             calcString.removeLast()
             calcString += realOperatorInfo[nextOp]!
         } else {
-            calcString += tempNumber; calcString += realOperatorInfo[nextOp]!
-            tempNumber = ""
+            if isCalculated {
+                calcString += realOperatorInfo[nextOp]!
+                tempNumber = ""
+            } else {
+                calcString += tempNumber; calcString += realOperatorInfo[nextOp]!
+                tempNumber = ""
+            }
         }
     }
     
@@ -130,12 +149,12 @@ class Calculator: ObservableObject {
             resultText = "0."
             return
         }
-        
         if (number.last == ".") {
             resultText = numberFormatter.string(from: NSNumber(value:Double(number[..<number.endIndex])!))! + "."
         } else {
             resultText = numberFormatter.string(from: NSNumber(value:Double(number)!))!
         }
+        
     }
     
     // 마지막 문자 "÷", "×", "−", "+" 확인
