@@ -97,6 +97,7 @@ struct CalculatorButton: View {
         case "0":
             Button (action: {
                 calculator.addNumber(number: symbol)
+                calculator.isNumberMode = true
             }, label: {
                 Text("0").padding(.trailing, 85)
             }).buttonStyle(CalculatorButtonStyleForZero(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
@@ -104,35 +105,45 @@ struct CalculatorButton: View {
             Button(symbol) {
                 withAnimation() {
                     calculator.changeOperator(nextOp: symbol)
+                    calculator.isNumberMode = false
+                    calculator.isCalculated = false
                 }
             }.buttonStyle(CalculatorButtonStyleForOperator(symbol: symbol, fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap, bgColorIsActive: bgColorIsActive))
         case "AC":
             Button(calculator.isClear() ? symbol:symbolActive!) {
                 calculator.reset()
+                calculator.isNumberMode = false
             }.buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
         case "⁺∕₋":
             Button(symbol) {
                 calculator.changePlusMinus()
+                calculator.isNumberMode = false
             }.buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
         case "%":
             Button(symbol) {
                 calculator.divideBy100()
+                calculator.isNumberMode = false
             }.buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
         case ".":
             Button(symbol) {
                 calculator.addDot()
+                calculator.isNumberMode = false
             }
             .buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
             .padding(.leading, 6)
         case "=":
             Button(symbol) {
                 calculator.calculate()
+                calculator.isNumberMode = false
+                calculator.isCalculated = true
             }
             .buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
             .padding(.leading, 1)
         default:
             Button(symbol) {
                 calculator.addNumber(number: symbol)
+                calculator.isNumberMode = true
+                calculator.isCalculated = false
             }.buttonStyle(CalculatorButtonStyle(fontColor: fontColor, bgColor: bgColor, bgColorOnTap: bgColorOnTap))
         }
     }

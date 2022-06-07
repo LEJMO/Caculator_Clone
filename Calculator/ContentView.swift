@@ -59,7 +59,18 @@ struct ContentView: View {
                             .lineLimit(1)
                             .frame(height: 100)
                             .minimumScaleFactor(0.5)
-                    }).padding(.horizontal, 40)
+                    })
+                .padding(.horizontal, 40)
+                .gesture(
+                    DragGesture()
+                        .onChanged { _ in
+                            calculator.deleteLastNumber()
+                            calculator.isNumberMode = false
+                        }
+                        .onEnded { _ in
+                            calculator.isNumberMode = true
+                        }
+                )
                 // 4X4 버튼 배열
                 LazyVGrid(
                     columns: columns,
